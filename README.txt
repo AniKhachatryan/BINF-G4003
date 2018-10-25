@@ -1,0 +1,1 @@
+This is my project for BINF G4003 (Symbolic Methods) class. Also, this is my first time using Git and Github so please don't hate me for my stupidity.
