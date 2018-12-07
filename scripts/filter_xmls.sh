@@ -3,7 +3,7 @@
 cd /media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/xml
 dir=`pwd`
 git_dir=/media/ani/DATA/Columbia/BINFG4003/BINF-G4003
-filtered_dir=/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_xml
+filtered_dir=/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_xml_cancer
 echo $dir
 
 declare -a arr=("2012" "2013" "2014" "2015" "2016" "2017" "2018")
