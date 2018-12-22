@@ -18,12 +18,12 @@ for i in "${arr[@]}"; do
 			if [ ${bf: -3} == '.gz' ]; then
 				if [ ! -f $filtered_dir/$i/filtered_${bf::-3} ]; then
                                 	gunzip $f
-					python3.6 $git_dir/scripts/filter_xml_breast_cancer.py -f $f
+					python3.6 $git_dir/scripts/filter_xml_cancer.py -f $f
 					gzip ${f::-3}
 				fi
 			else
 				if [ ! -f $filtered_dir/$i/filtered_${bf} ]; then
-					python3.6 $git_dir/scripts/filter_xml_breast_cancer.py -f $f
+					python3.6 $git_dir/scripts/filter_xml_cancer.py -f $f
 					gzip $f
 				fi
 			fi

@@ -3,7 +3,7 @@ import re
 import argparse
 import xml.etree.ElementTree as ET
 
-parser = argparse.ArgumentParser('takes as input xml file, writes a filtered xml file containing just the ReferenceClinVarAssertion nodes relating to breast cancer/cancer')
+parser = argparse.ArgumentParser('takes as input xml file, writes a filtered xml file containing just the ReferenceClinVarAssertion nodes relating to cancer')
 parser.add_argument('-f', '--filename', dest='filename', help='input file path')
 args = parser.parse_args()
 
@@ -46,12 +46,7 @@ def filter_xml(filepath, year, month):
             if elem_traitset is None or elem_traitset.attrib['Type'] != "Disease":
                 continue
             traitset_text = re.sub(r"\s+", ' ', ' '.join(elem_traitset.itertext())).strip()
-            # del
-            # print(traitset_text)
-            # TODO add carcinoma or neoplasm?
             if 'cancer' in traitset_text:
-            # if 'breast' in traitset_text and 'cancer' in traitset_text:
-                # del
                 i += 1
                 print('cancer record found #', i, sep='')
                 with open(out_filename, 'a') as f:

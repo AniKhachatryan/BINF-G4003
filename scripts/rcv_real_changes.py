@@ -8,19 +8,15 @@ from collections import defaultdict
 
 
 def main():
-    with open('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/first_versions.pickle', 'rb') as f:
-        data = pickle.load(f)
-
-    df_first_versions = pd.DataFrame.from_dict(data, orient='index', columns=['Description', 'filename'])
-    df_first_versions.to_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/first_versions.csv')
-    # df_first_versions = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/rcv_first_files.csv')
-    df_latest = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_csv_cancer/filtered_ClinVarFullRelease_2018-11.csv')
+    df_first_versions = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/first_versions.csv', index_col='RCV')
+    # df_latest = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_csv_cancer/filtered_ClinVarFullRelease_2018-11.csv')
+    df_latest = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/processed_filtered_csv_cancer/filtered_ClinVarFullRelease_2018-11.csv')
     # df = pd.DataFrame(
     #     columns=['RCV', 'Version', 'Description', 'Type', 'DateUpdated', 'DateLastEvaluated', 'MethodType',
     #              'ReviewStatus', 'Origin', 'Reclassified'])
 
-    df_first_versions['Description'] = df_first_versions['Description'].str.lower()
-    df_latest['Description'] = df_latest['Description'].str.lower()
+    # df_first_versions['Description'] = df_first_versions['Description'].str.lower()
+    # df_latest['Description'] = df_latest['Description'].str.lower()
 
     dfs = []
     recl_dict = {}
@@ -30,16 +26,20 @@ def main():
         i += 1
         print(i)
         RCV = row['RCV']
+        if df_first_versions.loc[RCV].shape[0] == 0:
+            continue
         if df_first_versions.loc[RCV]['Description'] == row['Description']:
-            #TODO change this bs way of making _df, just add a new Reclassified column
+            # TODO change this bs way of making _df, just add a new Reclassified column
             _df = pd.DataFrame({'RCV': row['RCV'], 'Version': row['Version'], 'Description': row['Description'], \
                                 'Type': row['Type'], 'DateUpdated': row['DateUpdated'], 'DateLastEvaluated': row['DateLastEvaluated'], \
-                                'MethodType': row['MethodType'], 'ReviewStatus': row['ReviewStatus'], 'Origin': row['Origin'], 'Reclassified': 'n'}, index=[0])
+                                'MethodType': row['MethodType'], 'ReviewStatus': row['ReviewStatus'], 'Origin': row['Origin'], 'Reclassified': 0}, index=[0])
+
+            # row['Reclassified'] = 0
             dfs.append(_df)
         else:
             # print('first version:', df_first_versions.loc[RCV]['Description'])
             # print('last version:', row['Description'])
-            recl_dict[RCV] = data[RCV][1]
+            recl_dict[RCV] = df_first_versions.loc[RCV]['filename']
 
 
     df = pd.concat(dfs)
@@ -56,7 +56,7 @@ def main():
     for k, v in recl_dict.items():
         recl_dict_reverse[v].append(k)
 
-    filtered_csv_dir = '/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_csv_cancer'
+    filtered_csv_dir = '/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/processed_filtered_csv_cancer'
     dfs = []
     for k in recl_dict_reverse.keys():
         print(k)
@@ -64,7 +64,7 @@ def main():
         for RCV in recl_dict_reverse[k]:
             print(RCV)
             _df = df_[df_['RCV'] == RCV]
-            _df.loc[:, 'Reclassified'] = ['y']
+            _df.loc[:, 'Reclassified'] = [1]
             dfs.append(_df)
             # print('first version:', _df[_df['RCV' == RCV]]['Description'])
             # print('last version:', df_latest[df_latest['RCV'] == RCV]['Description'])

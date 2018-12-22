@@ -12,10 +12,6 @@ df_merged = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/df_m
 df_merged_dummy = pd.get_dummies(df_merged, columns=['Description', 'Type', 'MethodType', 'Origin', 'ReviewStatus'], drop_first=False)
 df_merged_dummy.drop(labels=['RCV', 'Version', 'DateLastEvaluated', 'DateUpdated', 'first_file', 'recl_file', 'date_added', 'date_recl', 'age_days', 'age_months', 'age_years'], axis=1, inplace=True)  # not droping reclassified and review status
 
-# df_merged_filtered = pd.read_csv('/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/df_merged_filtered.csv', index_col=None)
-# X = df_merged_filtered.loc[:, df_merged_filtered.columns != 'Reclassified']
-# y = df_merged_filtered['Reclassified']
-
 X = df_merged_dummy.loc[:, df_merged_dummy.columns != 'Reclassified']
 y = df_merged_dummy['Reclassified']
 
@@ -51,10 +47,6 @@ for i,e in sorted([(i,e) for (i,e) in enumerate(fit.ranking_)], key=lambda t: t[
     # print('support:', fit.support_[i])
     # c.append(X.columns[i])
     dict_ranking_rfe[X.columns[i]] = e
-
-
-# X = X.loc[:, c]
-
 
 # FI
 model = ExtraTreesClassifier()

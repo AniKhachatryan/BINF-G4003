@@ -65,7 +65,7 @@ def parse_xml(filepath, outfile):
 
 
 def main():
-    cancer = False
+    cancer = True
     if cancer:
         data_dir = '/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_xml_cancer/'
         output_dir = '/media/ani/DATA/Columbia/BINFG4003/BINF-G4003/data/filtered_csv_cancer/'
