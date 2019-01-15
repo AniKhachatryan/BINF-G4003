@@ -46,8 +46,6 @@ def process_csv(file, indir, outdir):
 
     # ReviewStatus
     single_submitter_list = ['classified by single submitter']
-    # TODO ???? if description is in conflict list -> 'criteria provided, conflicting interpretations'
-    # else -> 'criteria provided, multiple submitters, no conflicts'
     multiple_submitters_list = ['classified by multiple submitters']
     remove_reviewstatus = ['no assertion provided', 'not classified by submitter', 'practice guideline']
 
